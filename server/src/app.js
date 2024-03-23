@@ -3,10 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
-const PUBLIC_PATH = path.join(__dirname, '..', 'public');
+const api = require('./routes/api');
 
-const planetsRouter = require('./routes/planets/planets.router');
-const launchesRouter = require('./routes/launches/launches.router');
+const PUBLIC_PATH = path.join(__dirname, '..', 'public');
 
 const app = express();
 
@@ -20,8 +19,7 @@ app.use(morgan('combined'));
 app.use(express.json()); // parses any JSON data that we receive
 app.use(express.static(PUBLIC_PATH));
 
-app.use('/planets', planetsRouter);
-app.use('/launches', launchesRouter);
+app.use('/v1', api);
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(PUBLIC_PATH, 'index.html'));
