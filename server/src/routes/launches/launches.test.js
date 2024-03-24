@@ -1,6 +1,7 @@
 const request = require('supertest');
 
 const { mongoConnect, mongoDisconnect } = require('../../services/mongo');
+const { loadPlanetsData } = require('../../models/planets.model');
 const app = require('../../app');
 const API_VERSION = '/v1'
 const TIMEOUT = 20000;
@@ -8,6 +9,7 @@ const TIMEOUT = 20000;
 describe('Launches API', () => {
     beforeAll(async () => {
         await mongoConnect();
+        await loadPlanetsData();
     });
     /**
      * Here we are connecting to our production Database.
