@@ -3,6 +3,7 @@ const request = require('supertest');
 const { mongoConnect, mongoDisconnect } = require('../../services/mongo');
 const app = require('../../app');
 const API_VERSION = '/v1'
+const TIMEOUT = 20000;
 
 describe('Launches API', () => {
     beforeAll(async () => {
@@ -24,7 +25,7 @@ describe('Launches API', () => {
                 .expect(200);
             // expect(response.statusCode).toBe(200); jest aproach
     
-        });
+        }, TIMEOUT);
     });
     
     describe('Test POST /launch', ()=> {
@@ -61,7 +62,7 @@ describe('Launches API', () => {
             expect(responseDate).toBe(requestDate);
             
             expect(response.body).toMatchObject(launchDataWithoutDate);
-        });
+        }, TIMEOUT);
     
         test('It should catch missing required properties', async () => {
             const response = await request(app)
@@ -73,7 +74,7 @@ describe('Launches API', () => {
             expect(response.body).toStrictEqual({
                  error: 'Missing required lauch property'
             });
-        });
+        }, TIMEOUT);
     
         test('It should catch invalid dates,', async () => {
             const response = await request(app)
@@ -85,6 +86,6 @@ describe('Launches API', () => {
             expect(response.body).toStrictEqual({
                  error: 'Invalid launch date'
             });
-        });
+        }, TIMEOUT);
     });
 });
